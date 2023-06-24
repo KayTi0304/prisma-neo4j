@@ -1,8 +1,7 @@
-import { Cypher, DriverConfig } from "./config/neo4j";
+import { Cypher, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
 import { MiddlewareParams } from "./config/prisma";
-import { CreateNodeQuery, DeleteNodeQuery, FindNodeQuery, RunCypherTransactionRead, RunCypherTransactionWrite, UpdateNodeQuery } from "./helpers/crud-methods";
+import { CreateNodeQuery, DeleteNodeQuery, FindNodeQuery, UpdateNodeQuery } from "./helpers/crud-methods";
 import { parseAction } from "./helpers/parse";
-import { dC } from "./config/neo4j";
 
 export function CreateNeo4jMiddleware() {
     return async function prismaCacheMiddleware(
@@ -33,15 +32,20 @@ export function CreateNeo4jMiddleware() {
                 break;
         }
 
+        console.log("query: \n", query.query)
+        console.log("args: \n", query.args)
+
         //execute statement 
-        let result: any
+        /*let result: any
         if (action === "findOne") {
             result = RunCypherTransactionRead(query, dC)
             await next(params)
         } else {
             result = RunCypherTransactionWrite(query, dC)
             result = await next(params)
-        }
+        }*/
+        
+        const result = await next(params)
         return result
     }
   }
