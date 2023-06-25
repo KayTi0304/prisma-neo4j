@@ -48,4 +48,42 @@ export function CreateNeo4jMiddleware() {
         const result = await next(params)
         return result
     }
-  }
+}
+
+export function Neo4jOperations(model: string, operation: String, params: any, driver: any) {
+    // build query cypher
+    var query:Cypher = {
+        query: '',
+        args: {}
+    }
+    switch (operation) {
+        case "create":
+            query = CreateNodeQuery(model, params)
+            break
+        case "update":
+            query = UpdateNodeQuery(model, params)
+            break
+        case "delete":
+            query = DeleteNodeQuery(model, params)
+            break
+        case "findOne":
+            query = FindNodeQuery(model, params)
+            break
+        default:
+            console.log("no method specified")
+            break;
+    }
+
+    console.log("query: \n", query.query)
+    console.log("args: \n", query.args)
+
+    //execute statement 
+    /*let result: any
+    if (action === "findOne") {
+        result = RunCypherTransactionRead(query, driver)
+    } else {
+        result = RunCypherTransactionWrite(query, driver)
+    }
+    return result
+    */
+}
