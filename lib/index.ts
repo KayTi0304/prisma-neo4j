@@ -1,7 +1,7 @@
 import { Cypher, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
 import { MiddlewareParams } from "./config/prisma";
-import { CreateNodeQuery, DeleteNodeQuery, FindNodeQuery, UpdateNodeQuery } from "./helpers/crud-methods";
-import { parseAction } from "./helpers/parse";
+import { CreateNodeQuery, DeleteMultipleNodesQuery, DeleteNodeQuery, FindNodeQuery, UpdateMultipleNodesQuery, UpdateNodeQuery } from "./helpers/crud-methods";
+import { parseAction } from "./helpers/helper";
 
 export function CreateNeo4jMiddleware() {
     return async function prismaCacheMiddleware(
@@ -10,41 +10,8 @@ export function CreateNeo4jMiddleware() {
     ) {
         const action = parseAction(params.action)
         // build query cypher
-        var query:Cypher = {
-            query: '',
-            args: {}
-        }
-        switch (action) {
-            case "create":
-                query = CreateNodeQuery(params.model, params.args)
-                break
-            case "update":
-                query = UpdateNodeQuery(params.model, params.args)
-                break
-            case "delete":
-                query = DeleteNodeQuery(params.model, params.args)
-                break
-            case "findOne":
-                query = FindNodeQuery(params.model, params.args)
-                break
-            default:
-                console.log("no method specified")
-                break;
-        }
+        Neo4jOperations(params.model, action, params.args, dC)
 
-        console.log("query: \n", query.query)
-        console.log("args: \n", query.args)
-
-        //execute statement 
-        /*let result: any
-        if (action === "findOne") {
-            result = RunCypherTransactionRead(query, dC)
-            await next(params)
-        } else {
-            result = RunCypherTransactionWrite(query, dC)
-            result = await next(params)
-        }*/
-        
         const result = await next(params)
         return result
     }
@@ -60,14 +27,28 @@ export function Neo4jOperations(model: string, operation: String, params: any, d
         case "create":
             query = CreateNodeQuery(model, params)
             break
+        case "createMany":
+            break
         case "update":
             query = UpdateNodeQuery(model, params)
+            break
+        case "updateMany":
+            query = UpdateMultipleNodesQuery(model, params)
             break
         case "delete":
             query = DeleteNodeQuery(model, params)
             break
-        case "findOne":
-            query = FindNodeQuery(model, params)
+        case "deleteMany":
+            query = DeleteMultipleNodesQuery(model, params)
+            break
+        case "findMany":
+            query = FindNodeQuery(params.model, params, false)
+            break
+        case "findFirst":
+            query = FindNodeQuery(params.model, params, true)
+            break
+        case "findUnique":
+            query = FindNodeQuery(params.model, params, true)
             break
         default:
             console.log("no method specified")

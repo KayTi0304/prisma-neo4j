@@ -1,36 +1,8 @@
 import { Cypher, CypherUpdate, ObjectAndRelationshipCyper, ObjectAndRelationshipCyperUpdate } from "../config/neo4j";
-import { Action } from "../config/prisma";
-
-export const getAction = (object: any): String => {
-    const keys = Object.keys(object)
-    return keys[0] as String 
-}
-
-export const getModelName = (str: String): String => {
-    var firstCapital = str.substring(0, 1).toUpperCase()
-    var rest = str.substring(1, str.length-1)
-    return firstCapital + rest
-}
-
-export const getModelNameSingular = (str: String): String => {
-    var firstCapital = str.substring(0, 1).toUpperCase()
-    var rest = str.substring(1, str.length)
-    return firstCapital + rest
-}
-
-export const parseAction = (action: Action): String => {
-    return action as String
-}
-
-export const parseJson = (args: any): any => {
-    const argsBody = JSON.stringify(args)
-    const argsJson = JSON.parse(argsBody)
-    return argsJson
-}
+import {getModelNameSingular, getAction, getModelName} from "./helper";
 
 export const parseObjectsAndRelationshipsUpdate = (obj: ObjectAndRelationshipCyperUpdate): Cypher => {
     let cypher:Cypher = {query: "", args: {}}, i:number = 0
-    console.log("here: ", obj)
     for (var c of obj.cypher) {
         if (i++ != 0) cypher.query += " "
         cypher.query += c.match
