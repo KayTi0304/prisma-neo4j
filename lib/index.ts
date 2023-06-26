@@ -1,6 +1,6 @@
-import { Cypher, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
+import { Cypher, DriverConfig, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
 import { MiddlewareParams } from "./config/prisma";
-import { CreateNodeQuery, DeleteMultipleNodesQuery, DeleteNodeQuery, FindNodeQuery, UpdateMultipleNodesQuery, UpdateNodeQuery } from "./helpers/crud-methods";
+import { CreateMultipleNodesQuery, CreateNodeQuery, DeleteMultipleNodesQuery, DeleteNodeQuery, FindNodeQuery, UpdateMultipleNodesQuery, UpdateNodeQuery } from "./helpers/crud-methods";
 import { parseAction } from "./helpers/helper";
 
 export function CreateNeo4jMiddleware() {
@@ -17,17 +17,16 @@ export function CreateNeo4jMiddleware() {
     }
 }
 
-export function Neo4jOperations(model: string, operation: String, params: any, driver: any) {
+export async function Neo4jOperations(model: string, operation: String, params: any, driver: any) {
     // build query cypher
-    var query:Cypher = {
-        query: '',
-        args: {}
-    }
+    var query:Cypher = {query: '', args: {}}
+
     switch (operation) {
         case "create":
             query = CreateNodeQuery(model, params)
             break
         case "createMany":
+            query = CreateMultipleNodesQuery(model, params)
             break
         case "update":
             query = UpdateNodeQuery(model, params)
@@ -42,13 +41,13 @@ export function Neo4jOperations(model: string, operation: String, params: any, d
             query = DeleteMultipleNodesQuery(model, params)
             break
         case "findMany":
-            query = FindNodeQuery(params.model, params, false)
+            query = FindNodeQuery(model, params, false)
             break
         case "findFirst":
-            query = FindNodeQuery(params.model, params, true)
+            query = FindNodeQuery(model, params, true)
             break
         case "findUnique":
-            query = FindNodeQuery(params.model, params, true)
+            query = FindNodeQuery(model, params, true)
             break
         default:
             console.log("no method specified")
@@ -59,12 +58,12 @@ export function Neo4jOperations(model: string, operation: String, params: any, d
     console.log("args: \n", query.args)
 
     //execute statement 
-    /*let result: any
-    if (action === "findOne") {
-        result = RunCypherTransactionRead(query, driver)
+    let result: any
+    if (operation === "findOne" || operation === "findFirst" || operation === "findMany") {
+        result = await RunCypherTransactionRead(query, driver)
     } else {
-        result = RunCypherTransactionWrite(query, driver)
+        result = await RunCypherTransactionWrite(query, driver)
     }
     return result
-    */
+    
 }
