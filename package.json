@@ -1,108 +1,108 @@
 {
-  "name": "javascript-library-template",
-  "version": "0.0.0-development",
-  "private": false,
-  "description": "JavaScript library for connecting Prisma Client to Neo4j",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vvo/javascript-library-template.git"
-  },
-  "license": "MIT",
-  "author": "Vincent Voyer <vincent@codeagain.com>",
-  "sideEffects": false,
-  "main": "dist/",
-  "module": "lib/",
-  "files": [
-    "dist/",
-    "lib/",
-    "LICENSE",
-    "README.md"
-  ],
-  "scripts": {
-    "build": "babel lib/ -d dist/ --source-maps --ignore '**/*.test.js' --delete-dir-on-start",
-    "format": "prettier --write '**/*.*' && eslint . --fix",
-    "lint": "prettier --check '**/*.*' && eslint .",
-    "prepare": "yarn build",
-    "semantic-release": "semantic-release",
-    "test": "jest --coverage && yarn lint"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "12"
-          }
-        }
-      ]
-    ]
-  },
-  "prettier": {
-    "trailingComma": "all"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "jest": true,
-      "node": true
+    "name": "prisma-neo4j",
+    "version": "1.0.0-development",
+    "private": false,
+    "description": "JavaScript library for connecting Prisma Client to Neo4j",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/KayTi0304/prisma-neo4j.git"
     },
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 2019,
-      "sourceType": "module"
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:jest/recommended",
-      "plugin:import/recommended"
+    "license": "MIT",
+    "author": "Ming Yan Ti <tmy55770@gmail.com>",
+    "sideEffects": false,
+    "main": "dist/",
+    "module": "lib/",
+    "files": [
+        "dist/",
+        "lib/",
+        "LICENSE",
+        "README.md"
     ],
-    "rules": {
-      "arrow-body-style": [
-        "error",
-        "always"
-      ],
-      "curly": "error",
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "always"
+    "scripts": {
+        "build": "babel lib/ -d dist/ --source-maps --ignore '**/*.test.js' --delete-dir-on-start",
+        "format": "prettier --write '**/*.*' && eslint . --fix",
+        "lint": "prettier --check '**/*.*' && eslint .",
+        "prepare": "yarn build",
+        "semantic-release": "semantic-release",
+        "test": "jest --coverage && yarn lint"
+    },
+    "babel": {
+        "presets": [
+            [
+                "@babel/preset-env",
+                {
+                    "targets": {
+                        "node": "12"
+                    }
+                }
+            ]
+        ]
+    },
+    "prettier": {
+        "trailingComma": "all"
+    },
+    "eslintConfig": {
+        "env": {
+            "es6": true,
+            "jest": true,
+            "node": true
+        },
+        "parser": "babel-eslint",
+        "parserOptions": {
+            "ecmaVersion": 2019,
+            "sourceType": "module"
+        },
+        "extends": [
+            "eslint:recommended",
+            "plugin:jest/recommended",
+            "plugin:import/recommended"
+        ],
+        "rules": {
+            "arrow-body-style": [
+                "error",
+                "always"
+            ],
+            "curly": "error",
+            "import/order": [
+                "error",
+                {
+                    "newlines-between": "always"
+                }
+            ]
         }
-      ]
+    },
+    "jest": {},
+    "dependencies": {
+        "@prisma/client": "^4.15.0",
+        "neo4j-driver": "^5.9.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "7.12.17",
+        "@babel/core": "7.12.17",
+        "@babel/preset-env": "7.12.17",
+        "@types/jest": "27.0.2",
+        "babel-eslint": "10.1.0",
+        "babel-jest": "26.5.2",
+        "eslint": "7.32.0",
+        "eslint-plugin-import": "2.25.2",
+        "eslint-plugin-jest": "24.7.0",
+        "jest": "26.5.3",
+        "jest-date-mock": "1.0.8",
+        "prettier": "2.1.2",
+        "prettier-plugin-packagejson": "2.2.13",
+        "semantic-release": "^21.0.5",
+        "semantic-release-cli": "5.4.4"
+    },
+    "renovate": {
+        "extends": [
+            "config:js-lib",
+            ":automergePatch",
+            ":automergeBranch",
+            ":automergePatch",
+            ":automergeBranch",
+            ":automergeLinters",
+            ":automergeTesters",
+            ":automergeTypes"
+        ]
     }
-  },
-  "jest": {},
-  "dependencies": {
-    "@prisma/client": "^4.15.0",
-    "neo4j-driver": "^5.9.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "7.12.17",
-    "@babel/core": "7.12.17",
-    "@babel/preset-env": "7.12.17",
-    "@types/jest": "27.0.2",
-    "babel-eslint": "10.1.0",
-    "babel-jest": "26.5.2",
-    "eslint": "7.32.0",
-    "eslint-plugin-import": "2.25.2",
-    "eslint-plugin-jest": "24.7.0",
-    "jest": "26.5.3",
-    "jest-date-mock": "1.0.8",
-    "prettier": "2.1.2",
-    "prettier-plugin-packagejson": "2.2.13",
-    "semantic-release": "^21.0.5",
-    "semantic-release-cli": "5.4.4"
-  },
-  "renovate": {
-    "extends": [
-      "config:js-lib",
-      ":automergePatch",
-      ":automergeBranch",
-      ":automergePatch",
-      ":automergeBranch",
-      ":automergeLinters",
-      ":automergeTesters",
-      ":automergeTypes"
-    ]
-  }
 }
