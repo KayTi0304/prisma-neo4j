@@ -35,8 +35,6 @@ export const UpdateMultipleNodesQuery = (modelName: String | undefined, args:any
     const where = args["where"]
     var i = 0
     for (var key in where) {
-        if (i++ != 0) stmt += ' AND '
-
         if (key == "OR") {
             const field = where[key]
             for (var entry of field) {
@@ -49,6 +47,7 @@ export const UpdateMultipleNodesQuery = (modelName: String | undefined, args:any
             }
 
         } else if (key == "NOT") {
+            if (i++ != 0) stmt += ' AND '
             stmt += ` NOT `
             const keyCond = getKey(where[key]) //email
             const valCond = where[key] // {endsWith: 'hotmail.com'}
@@ -57,6 +56,7 @@ export const UpdateMultipleNodesQuery = (modelName: String | undefined, args:any
             args = Object.assign(args, keyvalCypher.args)
 
         } else {
+            if (i++ != 0) stmt += ' AND '
             const field = where[key]
             const keyvalCypher = getFilterQuery(field, key)
             stmt += keyvalCypher.query

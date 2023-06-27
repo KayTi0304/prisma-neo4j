@@ -1,4 +1,4 @@
-import { Cypher, DriverConfig, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
+import { Cypher, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
 import { MiddlewareParams } from "./config/prisma";
 import { CreateMultipleNodesQuery, CreateNodeQuery, DeleteMultipleNodesQuery, DeleteNodeQuery, FindNodeQuery, UpdateMultipleNodesQuery, UpdateNodeQuery } from "./helpers/crud-methods";
 import { parseAction } from "./helpers/helper";
@@ -50,12 +50,8 @@ export async function Neo4jOperations(model: string, operation: String, params: 
             query = FindNodeQuery(model, params, true)
             break
         default:
-            console.log("no method specified")
             break;
     }
-
-    console.log("query: \n", query.query)
-    console.log("args: \n", query.args)
 
     //execute statement 
     let result: any

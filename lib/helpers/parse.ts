@@ -196,7 +196,6 @@ export const iterateObjectCreation = (modelName: String, num: number, params: an
                         const keySingular = getModelNameSingular(key)
                         const childObj = iterateObjectUpdate(keySingular, 0, val["update"], `${modelName.toLocaleLowerCase()}_${num}`)
                         oarC.cypher = oarC.cypher.concat(childObj.cypher)
-                        console.log("oarc: ", oarC)
                         oarC.relationship = oarC.relationship.concat(childObj.relationship) 
                     }
                 break
