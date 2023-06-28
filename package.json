@@ -1,6 +1,6 @@
 {
     "name": "prisma-neo4j",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "private": false,
     "description": "JavaScript library for connecting Prisma Client to Neo4j",
     "repository": {
