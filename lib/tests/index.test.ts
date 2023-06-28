@@ -1,4 +1,5 @@
-import { DriverDisconnect, DriverInit, dC } from "../config/neo4j";
+import { dC } from "../config/neo4j";
+import { DriverDisconnect, DriverInit } from '../helpers/neo4j'
 import {Neo4jOperations} from "../index";
 import { PrismaClient } from '@prisma/client'
 

@@ -1,4 +1,5 @@
-import { Cypher, RunCypherTransactionRead, RunCypherTransactionWrite, dC } from "./config/neo4j";
+import { Cypher, dC } from "./config/neo4j";
+import { RunCypherTransactionRead, RunCypherTransactionWrite } from "./helpers/neo4j";
 import { MiddlewareParams } from "./config/prisma";
 import { CreateMultipleNodesQuery, CreateNodeQuery, DeleteMultipleNodesQuery, DeleteNodeQuery, FindNodeQuery, UpdateMultipleNodesQuery, UpdateNodeQuery } from "./helpers/crud-methods";
 import { parseAction } from "./helpers/helper";
