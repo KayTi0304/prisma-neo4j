@@ -34,12 +34,44 @@ export const parseJson = (args: any): any => {
 }
 
 export const getCondsQuery = (condition: string, key: string, val: any): string => {
-    if (condition === "contains") {
-        return `n.${key} CONTAINS '${val}'`
-    } else if (condition === "endsWith") {
-        return `n.${key} ENDS WITH '${val}'`
+    switch (condition) {
+        case 'lt':
+            return `n.${key} < ${val}`
+        case 'gt':
+            return `n.${key} > ${val}`
+        case 'lte':
+            return `n.${key} <= ${val}`
+        case 'gte':
+            return `n.${key} >= ${val}`
+        case 'contains':
+            return `n.${key} CONTAINS '${val}'`
+        case 'startsWith':
+            return `n.${key} STARTS WITH '${val}'`
+        case 'endsWith':
+            return `n.${key} ENDS WITH '${val}'`
+        case 'equals':
+            return `n.${key} EQUALS '${val}'`
+        case 'not':
+            return `NOT n.${key} = '${val}'`
+        case 'in':
+            var stmt = `n.${key} IN [`
+            var i = 0
+            for (var v in val) {
+                if (i++ == 0) stmt += `'${v}'`
+                else stmt += `, '${v}'`
+            }
+            stmt += ']'
+        case 'notIn':
+            var stmt = `NOT n.${key} IN [`
+            var i = 0
+            for (var v in val) {
+                if (i++ == 0) stmt += `'${v}'`
+                else stmt += `, '${v}'`
+            }
+            stmt += ']'
+        default:
+            return ``
     }
-    return ``
 }
 
 export const getFilterQuery = (key: any, keystr: string): Cypher => {
