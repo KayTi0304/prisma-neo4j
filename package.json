@@ -10,7 +10,7 @@
     "license": "MIT",
     "author": "Ming Yan Ti <tmy55770@gmail.com>",
     "sideEffects": false,
-    "main": "dist/",
+    "main": "lib/",
     "module": "lib/",
     "files": [
         "dist/",
